@@ -29,6 +29,37 @@
         .btn-primary:hover {
             background-color: #1a5bbd;
         }
+        /* Custom Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        .modal-content button {
+            margin-top: 1rem;
+            padding: 0.5rem 1.5rem;
+            background-color: #2575fc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
@@ -160,7 +191,26 @@
         </section>
     </div>
 
+    <!-- Custom Message Modal -->
+    <div id="customModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <p id="modalMessage"></p>
+            <button id="modalCloseBtn">OK</button>
+        </div>
+    </div>
+
     <script>
+        // Function to show custom modal
+        function showCustomModal(message) {
+            document.getElementById('modalMessage').textContent = message;
+            document.getElementById('customModal').classList.remove('hidden');
+        }
+
+        // Function to hide custom modal
+        document.getElementById('modalCloseBtn').addEventListener('click', () => {
+            document.getElementById('customModal').classList.add('hidden');
+        });
+
         document.getElementById('generateMessageBtn').addEventListener('click', async () => {
             const purposeInput = document.getElementById('purposeInput').value;
             const generatedMessageOutput = document.getElementById('generatedMessage');
@@ -169,7 +219,7 @@
             const buttonText = document.getElementById('buttonText');
 
             if (!purposeInput.trim()) {
-                alert('Please enter your purpose for contacting Mishelle.');
+                showCustomModal('Please enter your purpose for contacting Mishelle.');
                 return;
             }
 
@@ -267,7 +317,7 @@
             const generatedMessage = document.getElementById('generatedMessage');
             generatedMessage.select();
             document.execCommand('copy');
-            alert('Message copied to clipboard!');
+            showCustomModal('Message copied to clipboard!');
         });
     </script>
 </body>
